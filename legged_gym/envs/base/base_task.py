@@ -567,6 +567,16 @@ class BaseTask:
                 props[i].inertia.x.x *= inertia_scale
                 props[i].inertia.y.y *= inertia_scale
                 props[i].inertia.z.z *= inertia_scale
+                
+        if self.cfg.domain_rand.randomize_inertia:
+            for i in range(len(props)):
+                low_bound, high_bound = self.cfg.domain_rand.randomize_inertia_range
+                inertia_scale = np.random.uniform(low_bound, high_bound)
+                props[i].mass *= inertia_scale
+                props[i].inertia.x.x *= inertia_scale
+                props[i].inertia.y.y *= inertia_scale
+                props[i].inertia.z.z *= inertia_scale
+
         return props
 
     def _step_contact_targets(self):
@@ -1065,9 +1075,7 @@ class BaseTask:
         Args:
             env_ids (List[int]): Environemnt ids
         """
-        self.dof_pos[env_ids] = self.default_dof_pos[env_ids, :] + torch_rand_float(
-            -0.5, 0.5, (len(env_ids), self.num_dof), device=self.device
-        )
+        self.dof_pos[env_ids] = self.dof_pos[env_ids] = self.default_dof_pos[env_ids, :]
         self.dof_vel[env_ids] = 0.0
 
         env_ids_int32 = env_ids.to(dtype=torch.int32)

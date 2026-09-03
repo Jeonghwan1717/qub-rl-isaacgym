@@ -118,7 +118,7 @@ def get_load_path(root, load_run=-1, checkpoint=-1):
         last_run = os.path.join(root, runs[-1])
     except:
         raise ValueError("No runs in this directory: " + root)
-    if load_run == -1:
+    if load_run == -1 or load_run == "-1":
         load_run = last_run
     else:
         load_run = os.path.join(root, load_run)

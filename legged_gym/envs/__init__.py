@@ -51,17 +51,27 @@ if robot_type.startswith("PF"):
         "is not among valid robot types PF_TRON1A, PF_P441A, PF_P441B, PF_P441C, PF_P441C2.\033[0m")
         sys.exit(1)
 
-elif robot_type == "SF_TRON1A":
-    from legged_gym.envs.solefoot_flat.solefoot_flat import BipedSF
-    from legged_gym.envs.solefoot_flat.solefoot_flat_config import BipedCfgSF, BipedCfgPPOSF
-    task_registry.register("pointfoot_flat", BipedSF, BipedCfgSF(), BipedCfgPPOSF())
-
 elif robot_type == "WF_TRON1A":
-    from legged_gym.envs.wheelfoot_flat.wheelfoot_flat import BipedWF
-    from legged_gym.envs.wheelfoot_flat.wheelfoot_flat_config import BipedCfgWF, BipedCfgPPOWF
-    task_registry.register("pointfoot_flat", BipedWF, BipedCfgWF(), BipedCfgPPOWF())
+	from legged_gym.envs.wheelfoot_flat.wheelfoot_flat import BipedWF
+	from legged_gym.envs.wheelfoot_flat.wheelfoot_flat_config import BipedCfgWF, BipedCfgPPOWF
+	task_registry.register("pointfoot_flat", BipedWF, BipedCfgWF(), BipedCfgPPOWF())
+
+elif robot_type == "QUB":
+	from legged_gym.envs.qub_flat.qub_flat import QUBFlat
+	from legged_gym.envs.qub_flat.qub_flat_config import QUBCfg, QUBCfgPPO
+
+	task_registry.register(
+    	"qub_flat",
+    	QUBFlat,
+    	QUBCfg(),
+    	QUBCfgPPO()
+	)
 
 else:
-    print("\033[1m\033[31mError: Input ROBOT_TYPE={}".format(robot_type), 
-        "is not among valid robot types PF_P441A, PF_P441B, PF_P441C, PF_P441C2, PF_TRON1A, WF_TRON1A and SF_TRON1A.\033[0m")
-    sys.exit(1)
+	print(
+	"\033[1m\033[31mError: Input ROBOT_TYPE={}".format(robot_type),
+	"is not among valid robot types PF_P441A, PF_P441B, PF_P441C, PF_P441C2, PF_TRON1A, WF_TRON1A, SF_TRON1A and QUB.\033[0m"
+	)
+	sys.exit(1)
+
+
